@@ -1,76 +1,76 @@
-<head>
-    <link rel="stylesheet" href="php/style.css"> <!-- Eğer php klasöründeyse -->
-</head>
-
 <?php
 session_start();
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.html");
+    header("Location: index.html");
     exit;
 }
 ?>
-
-
-<?php
-session_start();
-
-// Kullanıcı giriş yapmamışsa login sayfasına yönlendir
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.html');
-    exit;
-}
-
-// Veritabanı bağlantısını ekle
-require 'php/db_connect.php';
-
-// Kullanıcı bilgilerini çek
-$user_id = $_SESSION['user_id'];
-$query = "SELECT name FROM users WHERE id = '$user_id'";
-$result = mysqli_query($conn, $query);
-$user = mysqli_fetch_assoc($result);
-
-?>
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>SmartBook – Kitaplar</title>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      fetchBooks();
+
+      document.getElementById("logoutBtn").addEventListener("click", () => {
+        fetch("logout.php")
+          .then(() => window.location.href = "index.html");
+      });
+    });
+
+    function fetchBooks() {
+      fetch("books.php")
+        .then(res => res.json())
+        .then(data => {
+          const list = document.getElementById("bookList");
+          list.innerHTML = "";
+          data.forEach(book => {
+            const div = document.createElement("div");
+            div.className = "book";
+            div.innerHTML = `
+              <strong>${book.title}</strong> – ${book.author}<br>
+              Durum: ${book.status === "available" ? "Uygun" : "Rezerve Edilmiş"}
+              ${book.status === "available" ? `<button onclick="reserveBook(${book.id})">Rezerve Et</button>` : ""}
+              <hr>
+            `;
+            list.appendChild(div);
+          });
+        });
+    }
+
+    function reserveBook(bookId) {
+      const formData = new FormData();
+      formData.append("book_id", bookId);
+
+      fetch("reserve.php", {
+        method: "POST",
+        body: formData
+      })
+      .then(res => res.text())
+      .then(response => {
+        if (response === "success") {
+          alert("Kitap başarıyla rezerve edildi.");
+          fetchBooks();
+        } else if (response === "already_reserved") {
+          alert("Bu kitap zaten rezerve edilmiş.");
+        } else {
+          alert("Rezervasyon sırasında hata oluştu.");
+        }
+      });
+    }
+  </script>
 </head>
 <body>
-    <div class="container">
-        <h1>Hoşgeldiniz, <?php echo htmlspecialchars($user['name']); ?>!</h1>
-        <p>Burası senin kitap rezervasyon sistemindeki profil sayfan.</p>
+  <div class="container">
+    <h1>📚 SmartBook</h1>
+    <p>Hoş geldiniz, <?php echo htmlspecialchars($_SESSION['username']); ?>!</p>
+    <button id="logoutBtn">Çıkış Yap</button>
 
-        <h2>📚 Kiraladığınız Kitaplar</h2>
-        <table>
-            <tr>
-                <th>Kitap Adı</th>
-                <th>Yazar</th>
-                <th>Kiralama Tarihi</th>
-                <th>İade Tarihi</th>
-            </tr>
-
-            <?php
-            $query = "SELECT books.title, books.author, rentals.rental_date, rentals.return_date 
-                      FROM rentals 
-                      JOIN books ON rentals.book_id = books.id 
-                      WHERE rentals.user_id = '$user_id'";
-            $result = mysqli_query($conn, $query);
-
-            while ($row = mysqli_fetch_assoc($result)) {
-                echo "<tr>
-                        <td>{$row['title']}</td>
-                        <td>{$row['author']}</td>
-                        <td>{$row['rental_date']}</td>
-                        <td>{$row['return_date']}</td>
-                      </tr>";
-            }
-            ?>
-        </table>
-
-        <p><a href="logout.php">Çıkış Yap</a></p>
-    </div>
+    <h2>Kitaplar</h2>
+    <div id="bookList">Yükleniyor...</div>
+  </div>
 </body>
 </html>
