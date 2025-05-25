@@ -1,0 +1,109 @@
+/* Background & Main Container */
+body {
+    background: linear-gradient(to right, #d6e6f5, #a3c4dc);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+/* Framed Main Content */
+.container {
+    max-width: 80%;
+    margin: auto;
+    padding: 20px;
+    border: 5px solid #007bff; /* Blue frame */
+    border-radius: 15px; /* Rounded corners */
+    background: white;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Navbar */
+header {
+    background: #007bff;
+    color: white;
+    padding: 15px;
+}
+
+nav a {
+    margin: 10px;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+/* Stylish Button */
+.button {
+    background: #007bff;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 20px;
+    border: 2px solid white; /* Border for contrast */
+}
+
+.button:hover {
+    background: #0056b3;
+}
+
+/* Category Grid */
+.category-grid {
+    display: flex;
+    justify-content: center;
+}
+
+.category {
+    margin: 10px;
+    padding: 10px;
+    background: white;
+    border-radius: 10px;
+    border: 2px solid #007bff;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Apply a border frame around the site */
+body {
+    background: linear-gradient(to right, #d6e6f5, #a3c4dc); /* Smooth background color */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Frame for Main Content */
+.container {
+    max-width: 90%;
+    margin: auto;
+    padding: 20px;
+    border: 8px solid #007bff; /* Strong blue frame */
+    border-radius: 15px; /* Rounded corners */
+    background: white;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2); /* Soft shadow effect */
+}
+
+/* Add border to the header */
+header {
+    background: #007bff;
+    color: white;
+    padding: 20px;
+    border: 5px solid white;
+    border-radius: 10px;
+}
+
+/* Book Categories with Borders */
+.category {
+    padding: 15px;
+    border: 3px solid #007bff;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+body {
+    background: linear-gradient(to right, #1e3a8a, #3b82f6);
+}
+
+body {
+    background: #d6e6f5; /* Light blue background */
+}

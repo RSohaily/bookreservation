@@ -1,0 +1,24 @@
+<?php session_start(); ?>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Kitaplar</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>📚 Kitapları Görüntüle</h1>
+
+    <div class="book">
+        <img src="images/book1.jpg" alt="Book Title">
+        <h3>Kitap Adı</h3>
+        <p>Yazar: John Doe</p>
+
+        <?php if(isset($_SESSION['user_id'])) { ?>
+            <a href="rent.php?book_id=1">Kirala</a>
+        <?php } else { ?>
+            <p>Kiralamak için <a href="login.html">giriş yapın</a></p>
+        <?php } ?>
+    </div>
+</body>
+</html>
